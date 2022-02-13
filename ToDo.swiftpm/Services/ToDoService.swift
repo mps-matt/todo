@@ -1,12 +1,7 @@
 import SwiftUI
 
 class ToDoService: ObservableObject {
-    @Published private(set) var toDoList: [ToDoItem]
-    
-    init() {
-        self.toDoList = []
-        toDoList = loadToDoList()
-    }
+    @Published private(set) var toDoList: [ToDoItem] = loadToDoList()
     
     func add(toDoItem: ToDoItem) {
         toDoList.append(toDoItem)
@@ -31,7 +26,15 @@ class ToDoService: ObservableObject {
         saveToDoList()
     }
     
-    private func loadToDoList() -> [ToDoItem] {
+    func getToDoItem(itemId: UUID) -> ToDoItem {
+        if let itemIndex = toDoList.firstIndex(where: {$0.id == itemId}) {
+            return toDoList[itemIndex]
+        }
+        
+        return ToDoItem(description: "")
+    }
+    
+    private static func loadToDoList() -> [ToDoItem] {
         if let savedToDos = UserDefaults.standard.object(forKey: "todolist") as? Data, 
             let loaded = try? JSONDecoder().decode([ToDoItem].self, from: savedToDos) {
             return loaded

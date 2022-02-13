@@ -13,22 +13,17 @@ struct ToDoListView: View {
         NavigationView {
         VStack {
             HStack {
-                TextField("?", text: $newToDo)
-                Button("+") {
-                    if (!newToDo.trimmingCharacters(in: .whitespaces).isEmpty) {
-                        toDoService.add(toDoItem: ToDoItem(description: newToDo))
-                        newToDo = ""
-                    }
-                }
+                TextField("?", text: $newToDo, onCommit: addItem)
+                Button("+", action: addItem)
             }
             .padding()
             
             List {
-                ForEach(toDoService.toDoList) { toDoItem in 
+                ForEach(toDoList) { toDoItem in 
                     ToDoItemView(toDoItem: toDoItem)
                 }
-                .onDelete(perform: toDoService.delete)
-                .onMove(perform: toDoService.move)
+                .onDelete(perform: delete)
+                .onMove(perform: move)
                 .onLongPressGesture() {
                     withAnimation {
                         isEditable = !isEditable
@@ -47,5 +42,24 @@ struct ToDoListView: View {
             Text(isEditable ? "Done" : "Edit")
         })
         }
+    }
+    
+    func addItem() {
+        if (!newToDo.trimmingCharacters(in: .whitespaces).isEmpty) {
+            toDoService.add(toDoItem: ToDoItem(description: newToDo))  
+            newToDo = ""
+        }
+        dismissKeyboard()
+        toDoList = toDoService.toDoList
+    }
+    
+    func delete(at offsets: IndexSet) {
+        toDoService.delete(at: offsets)
+        toDoList = toDoService.toDoList
+    }
+    
+    func move(from source: IndexSet, to destination: Int) {
+        toDoService.move(from: source, to: destination)
+        toDoList = toDoService.toDoList
     }
 }
