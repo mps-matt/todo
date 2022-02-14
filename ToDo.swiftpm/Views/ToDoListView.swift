@@ -35,6 +35,7 @@ struct ToDoListView: View {
         }
         .textFieldStyle(.roundedBorder)
         .buttonStyle(.bordered)
+        .listStyle(.automatic)
         .navigationBarTitle(title)
         .navigationBarTitleDisplayMode(.large)
         .navigationBarItems(trailing: Button(action: {

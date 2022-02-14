@@ -21,6 +21,15 @@ class ToDoService: ObservableObject {
     func toggleItemChecked(itemId: UUID) {
         if let itemIndex = toDoList.firstIndex(where: {$0.id == itemId}) {
             toDoList[itemIndex].checked.toggle()
+            
+            if (toDoList.allSatisfy({ $0.checked == true })) {
+                let impactHeavy = UIImpactFeedbackGenerator(style: .heavy)
+                impactHeavy.impactOccurred()
+            }
+            else if (toDoList[itemIndex].checked) {
+                let impactHeavy = UIImpactFeedbackGenerator(style: .light)
+                impactHeavy.impactOccurred()
+            }
         }
         
         saveToDoList()
@@ -48,4 +57,5 @@ class ToDoService: ObservableObject {
             defaults.set(encoded, forKey: "todolist")
         }
     }
+    
 }
