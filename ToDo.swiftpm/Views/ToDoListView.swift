@@ -52,18 +52,18 @@ struct ToDoListView: View {
             newToDo = ""
         }
         dismissKeyboard()
-        toDoList = toDoService.toDoList
+        toDoList = toDoService.toDoListToday
         let impactHeavy = UIImpactFeedbackGenerator(style: .light)
         impactHeavy.impactOccurred()
     }
     
     func delete(at offsets: IndexSet) {
         toDoService.delete(at: offsets)
-        toDoList = toDoService.toDoList
+        toDoList = toDoService.toDoListToday
     }
     
     func move(from source: IndexSet, to destination: Int) {
         toDoService.move(from: source, to: destination)
-        toDoList = toDoService.toDoList
+        toDoList = toDoService.toDoListToday
     }
 }
