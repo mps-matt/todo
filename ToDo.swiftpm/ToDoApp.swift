@@ -14,16 +14,22 @@ struct ToDoApp: App {
             TabView {
                 ToDoListView(
                     title: $todayMessage,
-                    toDoList: toDoService.toDoListToday
+                    toDoCategory: ToDoCategory.daily,
+                    toDoList: toDoService.toDoList
                 )
+                    .environmentObject(toDoService)
                 ToDoListView(
                     title: $monthMessage,
-                    toDoList: toDoService.toDoListToday
+                    toDoCategory: ToDoCategory.monthly,
+                    toDoList: toDoService.toDoList
                 )
+                    .environmentObject(toDoService)
                 ToDoListView(
                     title: $yearMessage,
-                    toDoList: toDoService.toDoListToday
+                    toDoCategory: ToDoCategory.yearly,
+                    toDoList: toDoService.toDoList
                 )
+                    .environmentObject(toDoService)
             }
             .tabViewStyle(PageTabViewStyle())
         }

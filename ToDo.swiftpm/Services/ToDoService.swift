@@ -1,26 +1,26 @@
 import SwiftUI
 
 class ToDoService: ObservableObject {
-    @Published private(set) var toDoListToday: [ToDoItem] = loadToDoList()
+    @Published private(set) var toDoList: [ToDoItem] = loadToDoList()
     
     func add(toDoItem: ToDoItem) {
-        toDoListToday.append(toDoItem)
+        toDoList.append(toDoItem)
         saveToDoList()
     }
     
     func delete(at offsets: IndexSet) {
-        toDoListToday.remove(atOffsets: offsets)
+        toDoList.remove(atOffsets: offsets)
         saveToDoList()
     }
     
     func move(from source: IndexSet, to destination: Int) {
-        toDoListToday.move(fromOffsets: source, toOffset: destination)
+        toDoList.move(fromOffsets: source, toOffset: destination)
         saveToDoList()
     }
     
     func toggleItemChecked(itemId: UUID) {
-        if let itemIndex = toDoListToday.firstIndex(where: {$0.id == itemId}) {
-            toDoListToday[itemIndex].checked.toggle()
+        if let itemIndex = toDoList.firstIndex(where: {$0.id == itemId}) {
+            toDoList[itemIndex].checked.toggle()
             
             let impactHeavy = UIImpactFeedbackGenerator(style: .heavy)
             impactHeavy.impactOccurred()
@@ -30,11 +30,11 @@ class ToDoService: ObservableObject {
     }
     
     func getToDoItem(itemId: UUID) -> ToDoItem {
-        if let itemIndex = toDoListToday.firstIndex(where: {$0.id == itemId}) {
-            return toDoListToday[itemIndex]
+        if let itemIndex = toDoList.firstIndex(where: {$0.id == itemId}) {
+            return toDoList[itemIndex]
         }
         
-        return ToDoItem(description: "")
+        return ToDoItem(description: "", category: ToDoCategory.none)
     }
     
     private static func loadToDoList() -> [ToDoItem] {
@@ -46,7 +46,7 @@ class ToDoService: ObservableObject {
     }
     
     private func saveToDoList() {
-        if let encoded = try? JSONEncoder().encode(toDoListToday) {
+        if let encoded = try? JSONEncoder().encode(toDoList) {
             let defaults = UserDefaults.standard
             defaults.set(encoded, forKey: "todolist")
         }

@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ToDoListView: View {
     @Binding var title: String
+    @State var toDoCategory: ToDoCategory
     @State var toDoList: [ToDoItem]
     
     @EnvironmentObject private var toDoService: ToDoService
@@ -20,7 +21,9 @@ struct ToDoListView: View {
             
             List {
                 ForEach(toDoList) { toDoItem in 
-                    ToDoItemView(toDoItem: toDoItem)
+                    if(toDoItem.category == toDoCategory) {
+                        ToDoItemView(toDoItem: toDoItem)
+                    }
                 }
                 .onDelete(perform: delete)
                 .onMove(perform: move)
@@ -48,22 +51,22 @@ struct ToDoListView: View {
     
     func addItem() {
         if (!newToDo.trimmingCharacters(in: .whitespaces).isEmpty) {
-            toDoService.add(toDoItem: ToDoItem(description: newToDo))  
+            toDoService.add(toDoItem: ToDoItem(description: newToDo, category: toDoCategory))  
             newToDo = ""
         }
         dismissKeyboard()
-        toDoList = toDoService.toDoListToday
+        toDoList = toDoService.toDoList
         let impactHeavy = UIImpactFeedbackGenerator(style: .light)
         impactHeavy.impactOccurred()
     }
     
     func delete(at offsets: IndexSet) {
         toDoService.delete(at: offsets)
-        toDoList = toDoService.toDoListToday
+        toDoList = toDoService.toDoList
     }
     
     func move(from source: IndexSet, to destination: Int) {
         toDoService.move(from: source, to: destination)
-        toDoList = toDoService.toDoListToday
+        toDoList = toDoService.toDoList
     }
 }
