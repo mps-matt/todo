@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct ToDoListView: View {
-    @State var title: String
+    @Binding var title: String
     @State var toDoList: [ToDoItem]
     
     @EnvironmentObject private var toDoService: ToDoService
@@ -36,10 +36,11 @@ struct ToDoListView: View {
         .textFieldStyle(.roundedBorder)
         .buttonStyle(.bordered)
         .navigationBarTitle(title)
+        .navigationBarTitleDisplayMode(.large)
         .navigationBarItems(trailing: Button(action: {
             self.isEditable = !self.isEditable
         }) {
-            Text(isEditable ? "Done" : "Edit")
+            Image(systemName: isEditable ? "checkmark.circle" : "square.and.pencil")
         })
         }
     }

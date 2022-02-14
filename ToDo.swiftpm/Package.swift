@@ -8,18 +8,18 @@ import PackageDescription
 import AppleProductTypes
 
 let package = Package(
-    name: "todo",
+    name: "todoyy",
     platforms: [
         .iOS("15.2")
     ],
     products: [
         .iOSApplication(
-            name: "todo",
+            name: "todoyy",
             targets: ["AppModule"],
-            bundleIdentifier: "com.mattstark.todo",
+            bundleIdentifier: "com.mattstark.todoyy",
             teamIdentifier: "9U2KMM8W29",
             displayVersion: "1.0",
-            bundleVersion: "7",
+            bundleVersion: "8",
             iconAssetName: "AppIcon",
             accentColorAssetName: "AccentColor",
             supportedDeviceFamilies: [
