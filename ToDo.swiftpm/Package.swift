@@ -19,7 +19,7 @@ let package = Package(
             bundleIdentifier: "com.mattstark.todoyy",
             teamIdentifier: "9U2KMM8W29",
             displayVersion: "1.0",
-            bundleVersion: "9",
+            bundleVersion: "10",
             iconAssetName: "AppIcon",
             accentColorAssetName: "AccentColor",
             supportedDeviceFamilies: [

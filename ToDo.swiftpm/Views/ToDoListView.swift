@@ -56,13 +56,15 @@ struct ToDoListView: View {
         }
         dismissKeyboard()
         toDoList = toDoService.toDoList
-        let impactHeavy = UIImpactFeedbackGenerator(style: .light)
-        impactHeavy.impactOccurred()
+        let impactLight = UIImpactFeedbackGenerator(style: .light)
+        impactLight.impactOccurred()
     }
     
     func delete(at offsets: IndexSet) {
         toDoService.delete(at: offsets)
         toDoList = toDoService.toDoList
+        let impactLight = UIImpactFeedbackGenerator(style: .light)
+        impactLight.impactOccurred()
     }
     
     func move(from source: IndexSet, to destination: Int) {
