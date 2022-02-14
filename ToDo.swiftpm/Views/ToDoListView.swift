@@ -53,6 +53,8 @@ struct ToDoListView: View {
         }
         dismissKeyboard()
         toDoList = toDoService.toDoList
+        let impactHeavy = UIImpactFeedbackGenerator(style: .light)
+        impactHeavy.impactOccurred()
     }
     
     func delete(at offsets: IndexSet) {

@@ -22,14 +22,8 @@ class ToDoService: ObservableObject {
         if let itemIndex = toDoList.firstIndex(where: {$0.id == itemId}) {
             toDoList[itemIndex].checked.toggle()
             
-            if (toDoList.allSatisfy({ $0.checked == true })) {
-                let impactHeavy = UIImpactFeedbackGenerator(style: .heavy)
-                impactHeavy.impactOccurred()
-            }
-            else if (toDoList[itemIndex].checked) {
-                let impactHeavy = UIImpactFeedbackGenerator(style: .light)
-                impactHeavy.impactOccurred()
-            }
+            let impactHeavy = UIImpactFeedbackGenerator(style: .heavy)
+            impactHeavy.impactOccurred()
         }
         
         saveToDoList()
