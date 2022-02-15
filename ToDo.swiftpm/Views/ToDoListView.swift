@@ -39,7 +39,7 @@ struct ToDoListView: View {
                 .listRowBackground(Rectangle()
                                     .background(Color.clear)
                                     .foregroundColor(.primary)
-                                    .opacity(0.05)
+                                    .opacity(0.07)
                 )
             }
             .environment(\.editMode, isEditable ? .constant(.active) : .constant(.inactive))

@@ -23,6 +23,7 @@ struct ToDoItemView: View {
                         toDoService.toggleItemChecked(itemId: toDoItem.id)
                         toDoItem.checked.toggle()
                     }
+                    .fixedSize(horizontal: false, vertical: true)
                 Spacer()
                 
                 if (toDoCategory == ToDoCategory.daily && !toDoItem.checked) {

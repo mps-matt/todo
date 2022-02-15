@@ -37,6 +37,8 @@ class ToDoService: ObservableObject {
     func editItemTime(itemId: UUID, newTime: Date) {
         if let itemIndex = toDoList.firstIndex(where: {$0.id == itemId}) {
             toDoList[itemIndex].dueTime = newTime
+            let impactHeavy = UIImpactFeedbackGenerator(style: .heavy)
+            impactHeavy.impactOccurred()
         }
         saveToDoList()
     }
