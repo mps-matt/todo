@@ -23,6 +23,7 @@ struct ToDoListView: View {
                 ForEach(toDoList) { toDoItem in 
                     if(toDoItem.category == toDoCategory) {
                         ToDoItemView(toDoItem: toDoItem)
+                            .buttonStyle(PlainButtonStyle())
                     }
                 }
                 .onDelete(perform: delete)
@@ -33,12 +34,12 @@ struct ToDoListView: View {
                         let impactLight = UIImpactFeedbackGenerator(style: .light)
                         impactLight.impactOccurred()
                     }
-                    
                 }
             }
             .environment(\.editMode, isEditable ? .constant(.active) : .constant(.inactive))
         }
         .textFieldStyle(.roundedBorder)
+        .textInputAutocapitalization(.never)
         .buttonStyle(.bordered)
         .listStyle(.automatic)
     }
