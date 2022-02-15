@@ -36,6 +36,11 @@ struct ToDoListView: View {
                         impactLight.impactOccurred()
                     }
                 }
+                .listRowBackground(Rectangle()
+                                    .background(Color.clear)
+                                    .foregroundColor(.primary)
+                                    .opacity(0.05)
+                )
             }
             .environment(\.editMode, isEditable ? .constant(.active) : .constant(.inactive))
         }
