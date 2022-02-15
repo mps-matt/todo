@@ -16,6 +16,7 @@ struct ToDoListView: View {
             HStack {
                 TextField("?", text: $newToDo, onCommit: addItem)
                 Button("+", action: addItem)
+                    .foregroundColor(.blue)
             }
             .padding()
             

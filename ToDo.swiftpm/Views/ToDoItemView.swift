@@ -12,22 +12,23 @@ struct ToDoItemView: View {
                     toDoService.toggleItemChecked(itemId: toDoItem.id)
                     toDoItem.checked.toggle()
                 }
-            if (isEditable) {
+                .foregroundColor(toDoItem.checked ? .green : .blue)
+            if (!isEditable) {
+                Text(toDoItem.description.lowercased())
+                    .strikethrough(toDoItem.checked)
+                    .foregroundColor(toDoItem.checked ? .gray : .primary)
+                    .onTapGesture {
+                        toDoService.toggleItemChecked(itemId: toDoItem.id)
+                        toDoItem.checked.toggle()
+                    }
+            } else {
                 TextField("?", text: $toDoItem.description)
                     .onChange(of: toDoItem.description) {
                         toDoService.editItemDescription(itemId: toDoItem.id, newDescription: $0.lowercased())
                     }
-            } else {
-                Text(toDoItem.description.lowercased())
-                    .strikethrough(toDoItem.checked)
-                    .foregroundColor(toDoItem.checked ? .gray : .primary)
             }
         }
         .onTapGesture {
-            if (!isEditable) {
-                toDoService.toggleItemChecked(itemId: toDoItem.id)
-                toDoItem.checked.toggle()
-            }
         }
     }
 }
