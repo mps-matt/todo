@@ -29,6 +29,14 @@ class ToDoService: ObservableObject {
         saveToDoList()
     }
     
+    func editItemDescription(itemId: UUID, newDescription: String) {
+        if let itemIndex = toDoList.firstIndex(where: {$0.id == itemId}) {
+            toDoList[itemIndex].description = newDescription
+        }
+        
+        saveToDoList()
+    }
+    
     func getToDoItem(itemId: UUID) -> ToDoItem {
         if let itemIndex = toDoList.firstIndex(where: {$0.id == itemId}) {
             return toDoList[itemIndex]

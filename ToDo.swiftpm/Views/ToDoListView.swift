@@ -22,7 +22,7 @@ struct ToDoListView: View {
             List {
                 ForEach(toDoList) { toDoItem in 
                     if(toDoItem.category == toDoCategory) {
-                        ToDoItemView(toDoItem: toDoItem)
+                        ToDoItemView(toDoItem: toDoItem, isEditable: $isEditable)
                             .buttonStyle(PlainButtonStyle())
                     }
                 }
