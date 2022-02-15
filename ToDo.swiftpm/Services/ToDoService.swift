@@ -21,6 +21,7 @@ class ToDoService: ObservableObject {
     func toggleItemChecked(itemId: UUID) {
         if let itemIndex = toDoList.firstIndex(where: {$0.id == itemId}) {
             toDoList[itemIndex].checked.toggle()
+            toDoList[itemIndex].dueTime = nil
             
             let impactHeavy = UIImpactFeedbackGenerator(style: .heavy)
             impactHeavy.impactOccurred()
@@ -33,7 +34,13 @@ class ToDoService: ObservableObject {
         if let itemIndex = toDoList.firstIndex(where: {$0.id == itemId}) {
             toDoList[itemIndex].description = newDescription
         }
-        
+        saveToDoList()
+    }
+    
+    func editItemTime(itemId: UUID, newTime: Date) {
+        if let itemIndex = toDoList.firstIndex(where: {$0.id == itemId}) {
+            toDoList[itemIndex].dueTime = newTime
+        }
         saveToDoList()
     }
     

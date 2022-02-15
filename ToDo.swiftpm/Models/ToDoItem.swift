@@ -9,4 +9,5 @@ struct ToDoItem: Identifiable, Encodable, Decodable {
     var description: String = ""
     var checked = false
     var category: ToDoCategory
+    var dueTime: Date!
 }

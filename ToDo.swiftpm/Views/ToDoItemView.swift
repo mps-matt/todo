@@ -3,6 +3,7 @@ import SwiftUI
 struct ToDoItemView: View {
     @State var toDoItem: ToDoItem 
     @Binding var isEditable: Bool
+    @FocusState private var isTimeFocused: Bool
     @EnvironmentObject private var toDoService: ToDoService
     
     var body: some View {
@@ -21,6 +22,27 @@ struct ToDoItemView: View {
                         toDoService.toggleItemChecked(itemId: toDoItem.id)
                         toDoItem.checked.toggle()
                     }
+                Spacer()
+                
+                if (toDoItem.dueTime == nil || toDoItem.checked) {
+                    Image(systemName: "clock")
+                        .foregroundColor(toDoItem.checked ? .gray : .blue)
+                        .onTapGesture {
+                            if (!toDoItem.checked) {
+                                toDoItem.dueTime = Date().dateOnly
+                                toDoService.editItemTime(itemId: toDoItem.id, newTime: toDoItem.dueTime)
+                            }
+                        }
+                } else {
+                    DatePicker("", selection: $toDoItem.dueTime, displayedComponents: [ .hourAndMinute])
+                        .focused($isTimeFocused)
+                        .onChange(of: isTimeFocused) { isTimeFocused in
+                            if (!isTimeFocused) {
+                                toDoService.editItemTime(itemId: toDoItem.id, newTime: toDoItem.dueTime)
+                            }
+                        }
+                }
+                
             } else {
                 TextField("?", text: $toDoItem.description)
                     .onChange(of: toDoItem.description) {
