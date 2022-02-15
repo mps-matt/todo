@@ -3,6 +3,7 @@ import SwiftUI
 struct ToDoItemView: View {
     @State var toDoItem: ToDoItem 
     @Binding var isEditable: Bool
+    @State var toDoCategory: ToDoCategory
     @FocusState private var isTimeFocused: Bool
     @EnvironmentObject private var toDoService: ToDoService
     
@@ -24,6 +25,7 @@ struct ToDoItemView: View {
                     }
                 Spacer()
                 
+                if (toDoCategory == ToDoCategory.daily) {
                 if (toDoItem.dueTime == nil || toDoItem.checked) {
                     Image(systemName: "clock")
                         .foregroundColor(toDoItem.checked ? .gray : .blue)
@@ -41,7 +43,7 @@ struct ToDoItemView: View {
                                 toDoService.editItemTime(itemId: toDoItem.id, newTime: toDoItem.dueTime)
                             }
                         }
-                }
+                }}
                 
             } else {
                 TextField("?", text: $toDoItem.description)
