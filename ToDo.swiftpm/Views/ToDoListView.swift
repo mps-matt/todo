@@ -29,7 +29,9 @@ struct ToDoListView: View {
                 .onMove(perform: move)
                 .onLongPressGesture() {
                     withAnimation {
-                        isEditable = !isEditable
+                        isEditable.toggle()
+                        let impactLight = UIImpactFeedbackGenerator(style: .light)
+                        impactLight.impactOccurred()
                     }
                     
                 }
