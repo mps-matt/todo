@@ -25,8 +25,8 @@ struct ToDoItemView: View {
                     }
                 Spacer()
                 
-                if (toDoCategory == ToDoCategory.daily) {
-                if (toDoItem.dueTime == nil || toDoItem.checked) {
+                if (toDoCategory == ToDoCategory.daily && !toDoItem.checked) {
+                if (toDoItem.dueTime == nil) {
                     Image(systemName: "clock")
                         .foregroundColor(toDoItem.checked ? .gray : .blue)
                         .onTapGesture {
