@@ -7,7 +7,7 @@ struct ToDoItemView: View {
     var body: some View {
         HStack {
             Image(systemName: toDoItem.checked ? "checkmark.circle.fill" : "circle")
-            Text(toDoItem.description)
+            Text(toDoItem.description.lowercased())
                 .strikethrough(toDoItem.checked)
                 .foregroundColor(toDoItem.checked ? .gray : .primary)
         }

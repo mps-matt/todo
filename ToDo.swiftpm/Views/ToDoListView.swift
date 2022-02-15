@@ -43,7 +43,7 @@ struct ToDoListView: View {
     
     func addItem() {
         if (!newToDo.trimmingCharacters(in: .whitespaces).isEmpty) {
-            toDoService.add(toDoItem: ToDoItem(description: newToDo, category: toDoCategory))  
+            toDoService.add(toDoItem: ToDoItem(description: newToDo.lowercased(), category: toDoCategory))  
             newToDo = ""
         }
         dismissKeyboard()
