@@ -21,12 +21,9 @@ class ToDoService: ObservableObject {
     func toggleItemChecked(itemId: UUID) {
         if let itemIndex = toDoList.firstIndex(where: {$0.id == itemId}) {
             toDoList[itemIndex].checked.toggle()
-            toDoList[itemIndex].dueTime = nil
-            
             let impactHeavy = UIImpactFeedbackGenerator(style: .heavy)
             impactHeavy.impactOccurred()
         }
-        
         saveToDoList()
     }
     
