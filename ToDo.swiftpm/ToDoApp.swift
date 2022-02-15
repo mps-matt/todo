@@ -32,6 +32,7 @@ struct ToDoApp: App {
                     .environmentObject(toDoService)
             }
             .tabViewStyle(PageTabViewStyle())
+            .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
         }
         .onChange(of: scenePhase) { newPhase in
             if newPhase == .active {

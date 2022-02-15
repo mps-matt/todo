@@ -11,8 +11,8 @@ struct ToDoListView: View {
     @State private var isEditable = false
     
     var body: some View {
-        NavigationView {
         VStack {
+            HeaderView(title: $title, isEditable: $isEditable)
             HStack {
                 TextField("?", text: $newToDo, onCommit: addItem)
                 Button("+", action: addItem)
@@ -39,14 +39,6 @@ struct ToDoListView: View {
         .textFieldStyle(.roundedBorder)
         .buttonStyle(.bordered)
         .listStyle(.automatic)
-        .navigationBarTitle(title)
-        .navigationBarTitleDisplayMode(.large)
-        .navigationBarItems(trailing: Button(action: {
-            self.isEditable = !self.isEditable
-        }) {
-            Image(systemName: isEditable ? "checkmark.circle" : "square.and.pencil")
-        })
-        }
     }
     
     func addItem() {
