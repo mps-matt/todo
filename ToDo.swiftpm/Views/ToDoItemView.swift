@@ -4,8 +4,14 @@ struct ToDoItemView: View {
     @State var toDoItem: ToDoItem 
     @Binding var isEditable: Bool
     @State var toDoCategory: ToDoCategory
-    @FocusState private var isTimeFocused: Bool
     @EnvironmentObject private var toDoService: ToDoService
+    
+    private var dueTimeProxy: Binding<Date> {
+        Binding<Date>(get: {toDoItem.dueTime }, set: {
+            toDoItem.dueTime = $0
+            toDoService.editItemTime(itemId: toDoItem.id, newTime: toDoItem.dueTime)
+        })
+    }
     
     var body: some View {
         HStack {
@@ -37,15 +43,8 @@ struct ToDoItemView: View {
                             }
                         }
                 } else {
-                    DatePicker("", selection: $toDoItem.dueTime, displayedComponents: [ .hourAndMinute])
-                        .focused($isTimeFocused)
-                        .onChange(of: isTimeFocused) { isTimeFocused in
-                            if (!isTimeFocused) {
-                                toDoService.editItemTime(itemId: toDoItem.id, newTime: toDoItem.dueTime)
-                            }
-                        }
+                    DatePicker("", selection: dueTimeProxy, displayedComponents: [ .hourAndMinute])
                 }}
-                
             } else {
                 TextField("?", text: $toDoItem.description)
                     .onChange(of: toDoItem.description) {
