@@ -13,6 +13,7 @@ struct ToDoListView: View {
     
     var body: some View {
         VStack {
+            VStack {
             HeaderView(title: $title, isEditable: $isEditable, isLightMode: $isLightMode)
             HStack {
                 TextField("?", text: $newToDo, onCommit: addItem)
@@ -22,8 +23,8 @@ struct ToDoListView: View {
                 Button("+", action: addItem)
                     .foregroundColor(.blue)
             }
-            .padding()
-            
+            .padding([.trailing, .leading, .bottom], 20)
+            }
             List {
                 ForEach(toDoList) { toDoItem in 
                     if(toDoItem.category == toDoCategory) {
@@ -45,6 +46,7 @@ struct ToDoListView: View {
                                     .foregroundColor(.primary)
                                     .opacity(0.07)
                 )
+                
             }
             .environment(\.editMode, isEditable ? .constant(.active) : .constant(.inactive))
         }

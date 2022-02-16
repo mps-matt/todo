@@ -11,6 +11,11 @@ struct ToDoApp: App {
     
     @AppStorage("isLightMode") private var isLightMode: Bool = true
     
+    init() {
+        UITableView.appearance().separatorStyle = .none
+        UITableView.appearance().backgroundColor = UIColor.secondarySystemBackground
+    }
+    
     var body: some Scene {
         WindowGroup {
             TabView {
