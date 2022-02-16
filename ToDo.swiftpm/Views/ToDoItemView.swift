@@ -47,6 +47,7 @@ struct ToDoItemView: View {
                 }}
             } else {
                 TextField("?", text: $toDoItem.description)
+                    .textFieldStyle(.roundedBorder)
                     .onChange(of: toDoItem.description) {
                         toDoService.editItemDescription(itemId: toDoItem.id, newDescription: $0.lowercased())
                     }
