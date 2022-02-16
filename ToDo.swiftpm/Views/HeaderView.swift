@@ -17,7 +17,7 @@ struct HeaderView : View {
                         .resizable()
                         .scaledToFit()
                         .frame(width: 22, height: 22)
-                        .foregroundColor(isEditable ? .green : .blue)
+                        .foregroundColor(.blue)
                 }
                 Spacer()
                 Button(action: {

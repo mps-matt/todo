@@ -16,6 +16,9 @@ struct ToDoListView: View {
             HeaderView(title: $title, isEditable: $isEditable, isLightMode: $isLightMode)
             HStack {
                 TextField("?", text: $newToDo, onCommit: addItem)
+                    .padding(.all, 5)
+                    .background(Color.secondaryBackground)
+                    .cornerRadius(10)
                 Button("+", action: addItem)
                     .foregroundColor(.blue)
             }
@@ -45,7 +48,7 @@ struct ToDoListView: View {
             }
             .environment(\.editMode, isEditable ? .constant(.active) : .constant(.inactive))
         }
-        .textFieldStyle(.roundedBorder)
+        
         .textInputAutocapitalization(.never)
         .buttonStyle(.bordered)
         .listStyle(.automatic)
