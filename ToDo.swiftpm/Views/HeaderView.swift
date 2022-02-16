@@ -3,10 +3,22 @@ import SwiftUI
 struct HeaderView : View {
     @Binding var title: String
     @Binding var isEditable: Bool
+    @Binding var isLightMode: Bool
     
     var body: some View {
         VStack {
             HStack {
+                Button(action: {
+                    self.isLightMode.toggle()
+                    let impactLight = UIImpactFeedbackGenerator(style: .light)
+                    impactLight.impactOccurred()
+                }) {
+                    Image(systemName: isLightMode ? "sun.min.fill" : "moon.fill")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 22, height: 22)
+                        .foregroundColor(isEditable ? .green : .blue)
+                }
                 Spacer()
                 Button(action: {
                     self.isEditable.toggle()

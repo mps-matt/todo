@@ -9,30 +9,36 @@ struct ToDoApp: App {
     @State private var monthMessage: String = ToDoApp.getMessage(format: "LLLL")
     @State private var yearMessage: String = ToDoApp.getMessage(format: "yyyy")
     
+    @AppStorage("isLightMode") private var isLightMode: Bool = true
+    
     var body: some Scene {
         WindowGroup {
             TabView {
                 ToDoListView(
                     title: $todayMessage,
                     toDoCategory: ToDoCategory.daily,
-                    toDoList: toDoService.toDoList
+                    toDoList: toDoService.toDoList,
+                    isLightMode: $isLightMode
                 )
                     .environmentObject(toDoService)
                 ToDoListView(
                     title: $monthMessage,
                     toDoCategory: ToDoCategory.monthly,
-                    toDoList: toDoService.toDoList
+                    toDoList: toDoService.toDoList,
+                    isLightMode: $isLightMode
                 )
                     .environmentObject(toDoService)
                 ToDoListView(
                     title: $yearMessage,
                     toDoCategory: ToDoCategory.yearly,
-                    toDoList: toDoService.toDoList
+                    toDoList: toDoService.toDoList,
+                    isLightMode: $isLightMode
                 )
                     .environmentObject(toDoService)
             }
             .tabViewStyle(PageTabViewStyle())
             .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
+            .preferredColorScheme(isLightMode ? .light : .dark)
         }
         .onChange(of: scenePhase) { newPhase in
             if newPhase == .active {

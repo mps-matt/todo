@@ -9,10 +9,11 @@ struct ToDoListView: View {
     
     @State private var newToDo = ""
     @State private var isEditable = false
+    @Binding var isLightMode: Bool
     
     var body: some View {
         VStack {
-            HeaderView(title: $title, isEditable: $isEditable)
+            HeaderView(title: $title, isEditable: $isEditable, isLightMode: $isLightMode)
             HStack {
                 TextField("?", text: $newToDo, onCommit: addItem)
                 Button("+", action: addItem)
