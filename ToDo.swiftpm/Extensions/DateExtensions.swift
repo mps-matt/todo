@@ -7,4 +7,14 @@ extension Date {
         }
         return dateWithoutTime
     }
+    
+    static func hour(date: Date) -> Int {
+        let calendar = Calendar.current
+        return calendar.component(.hour, from: date)
+    }
+    
+    static func minute(date: Date) -> Int {
+        let calendar = Calendar.current
+        return calendar.component(.minute, from: date)
+    }
 }

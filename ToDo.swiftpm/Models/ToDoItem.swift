@@ -11,4 +11,5 @@ struct ToDoItem: Identifiable, Encodable, Decodable {
     var category: ToDoCategory
     var dueTime: Date!
     var notificationSet: Bool! = false
+    var notificationUUID: String! = "" 
 }

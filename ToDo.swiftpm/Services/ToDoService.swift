@@ -9,6 +9,10 @@ class ToDoService: ObservableObject {
     }
     
     func delete(at offsets: IndexSet) {
+        offsets.sorted(by: > ).forEach { (i) in
+            cancelNotification(toDoItem: toDoList[i])
+        }
+        
         toDoList.remove(atOffsets: offsets)
         saveToDoList()
     }
@@ -21,6 +25,13 @@ class ToDoService: ObservableObject {
     func toggleItemChecked(itemId: UUID) {
         if let itemIndex = toDoList.firstIndex(where: {$0.id == itemId}) {
             toDoList[itemIndex].checked.toggle()
+            
+            if (toDoList[itemIndex].checked) {
+                cancelNotification(toDoItem: toDoList[itemIndex])
+            } else {
+                scheduleNotification(toDoItem: toDoList[itemIndex])
+            }
+            
             let impactHeavy = UIImpactFeedbackGenerator(style: .heavy)
             impactHeavy.impactOccurred()
         }
@@ -36,10 +47,19 @@ class ToDoService: ObservableObject {
     
     func editItemTime(itemId: UUID, newTime: Date) {
         if let itemIndex = toDoList.firstIndex(where: {$0.id == itemId}) {
+            cancelNotification(toDoItem: toDoList[itemIndex])
             toDoList[itemIndex].dueTime = newTime
             toDoList[itemIndex].notificationSet = true
+            scheduleNotification(toDoItem: toDoList[itemIndex])
             let impactHeavy = UIImpactFeedbackGenerator(style: .heavy)
             impactHeavy.impactOccurred()
+        }
+        saveToDoList()
+    }
+    
+    func editItemNotificationString(itemId: UUID, newString: String) {
+        if let itemIndex = toDoList.firstIndex(where: {$0.id == itemId}) {
+            toDoList[itemIndex].notificationUUID = newString
         }
         saveToDoList()
     }
@@ -47,6 +67,7 @@ class ToDoService: ObservableObject {
     func unsetNotification(itemId: UUID) {
         if let itemIndex = toDoList.firstIndex(where: {$0.id == itemId}) {
             toDoList[itemIndex].notificationSet = false
+            cancelNotification(toDoItem: toDoList[itemIndex])
             let impactHeavy = UIImpactFeedbackGenerator(style: .heavy)
             impactHeavy.impactOccurred()
         }
@@ -74,6 +95,40 @@ class ToDoService: ObservableObject {
             let defaults = UserDefaults.standard
             defaults.set(encoded, forKey: "todolist")
         }
+    }
+    
+    private func scheduleNotification(toDoItem: ToDoItem) {
+        if (toDoItem.dueTime != nil && toDoItem.notificationSet) {
+            let content = UNMutableNotificationContent()
+            content.title = "todoyy"
+            content.body = toDoItem.description
+            content.sound = .default
+            
+            var dateComponents = DateComponents()
+            dateComponents.hour = Date.hour(date: toDoItem.dueTime ?? Date())
+            dateComponents.minute = Date.minute(date: toDoItem.dueTime ?? Date())
+            
+            let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+            let uuidString = UUID().uuidString
+            let request = UNNotificationRequest(identifier: uuidString, content: content, trigger: trigger)
+            UNUserNotificationCenter.current().add(request) { (error : Error?) in
+                if let unwrappedError = error {
+                    print(unwrappedError.localizedDescription)
+                }
+            }
+            
+            editItemNotificationString(itemId: toDoItem.id, newString: uuidString)
+        }
+    }
+    
+    private func cancelNotification(toDoItem: ToDoItem) {
+        if (toDoItem.notificationUUID != nil && toDoItem.notificationUUID != "") {
+            var identifiers: [String] = []
+            identifiers.append(toDoItem.notificationUUID)
+            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
+        }
+        
+        editItemNotificationString(itemId: toDoItem.id, newString: "")
     }
     
 }

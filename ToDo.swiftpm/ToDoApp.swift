@@ -14,6 +14,9 @@ struct ToDoApp: App {
     init() {
         UITableView.appearance().separatorStyle = .none
         UITableView.appearance().backgroundColor = UIColor.secondarySystemBackground
+        
+        let center = UNUserNotificationCenter.current()
+        center.requestAuthorization(options: [.alert, .sound, .badge]){_,_ in }
     }
     
     var body: some Scene {
