@@ -10,4 +10,5 @@ struct ToDoItem: Identifiable, Encodable, Decodable {
     var checked = false
     var category: ToDoCategory
     var dueTime: Date!
+    var notificationSet: Bool! = false
 }

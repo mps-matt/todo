@@ -9,6 +9,7 @@ struct ToDoItemView: View {
     private var dueTimeProxy: Binding<Date> {
         Binding<Date>(get: {toDoItem.dueTime }, set: {
             toDoItem.dueTime = $0
+            toDoItem.notificationSet = true
             toDoService.editItemTime(itemId: toDoItem.id, newTime: toDoItem.dueTime)
         })
     }
@@ -33,17 +34,23 @@ struct ToDoItemView: View {
                 Spacer()
                 
                 if (toDoCategory == ToDoCategory.daily && !toDoItem.checked) {
-                if (toDoItem.dueTime == nil) {
+                if (toDoItem.dueTime == nil || !(toDoItem.notificationSet ?? false)) {
                     Image(systemName: "clock")
                         .foregroundColor(toDoItem.checked ? .gray : .blue)
                         .onTapGesture {
                             if (!toDoItem.checked) {
                                 toDoItem.dueTime = Date().dateOnly
+                                toDoItem.notificationSet = true
                                 toDoService.editItemTime(itemId: toDoItem.id, newTime: toDoItem.dueTime)
                             }
                         }
                 } else {
                     DatePicker("", selection: dueTimeProxy, displayedComponents: [ .hourAndMinute])
+                        .onTapGesture {}
+                        .onLongPressGesture(perform: {
+                            toDoItem.notificationSet = false
+                            toDoService.unsetNotification(itemId: toDoItem.id)
+                        })
                 }}
             } else {
                 TextField("?", text: $toDoItem.description)
