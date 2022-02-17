@@ -15,6 +15,21 @@ struct ToDoItemView: View {
     }
     
     var body: some View {
+        VStack {
+            if (toDoCategory == ToDoCategory.infinity) {
+                HStack(spacing: 2) {
+                    ForEach(1..<8) { i in
+                        Button(Date.getFirstLetterOf(dayOfWeek: i)) {
+                            toDoService.toggleItemRepeats(itemId: toDoItem.id, dayOfWeek: i)
+                        }
+                        .background(toDoService.hasRepeatOn(itemId: toDoItem.id, dayOfWeek: i) ? Color.tertiaryBackground : .secondaryBackground)
+                        .cornerRadius(25)
+                    }
+                }
+                .buttonStyle(.bordered)
+                .lineLimit(1)
+                .fixedSize(horizontal: true, vertical: true)
+            }
         HStack {
             if (toDoCategory != ToDoCategory.infinity) {
                 Image(systemName: toDoItem.checked ? "checkmark.circle.fill" : "circle")
@@ -35,6 +50,7 @@ struct ToDoItemView: View {
                         }
                     }
                     .fixedSize(horizontal: false, vertical: true)
+                    .padding()
                 Spacer()
                 
                 if ((toDoCategory == ToDoCategory.daily || toDoCategory == ToDoCategory.infinity) && !toDoItem.checked) {
@@ -65,6 +81,6 @@ struct ToDoItemView: View {
             }
         }
         .onTapGesture {
-        }
+        }}
     }
 }

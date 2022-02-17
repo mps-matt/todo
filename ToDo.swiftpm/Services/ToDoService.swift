@@ -67,6 +67,31 @@ class ToDoService: ObservableObject {
         saveToDoList()
     }
     
+    func toggleItemRepeats(itemId: UUID, dayOfWeek: Int) {
+        if let itemIndex = toDoList.firstIndex(where: {$0.id == itemId}) {
+            if (toDoList[itemIndex].category == ToDoCategory.infinity && toDoList[itemIndex].repeatsOn != nil) {
+                if let dayOkWeekIndex = toDoList[itemIndex].repeatsOn.firstIndex(where: { $0 == dayOfWeek}) {
+                    toDoList[itemIndex].repeatsOn.remove(at: dayOkWeekIndex)
+                } else {
+                    toDoList[itemIndex].repeatsOn.append(dayOfWeek)
+                }
+                    
+                let impactHeavy = UIImpactFeedbackGenerator(style: .heavy)
+                impactHeavy.impactOccurred()
+            }
+        }
+        saveToDoList()
+    }
+    
+    func hasRepeatOn(itemId: UUID, dayOfWeek: Int) -> Bool {
+        if let itemIndex = toDoList.firstIndex(where: {$0.id == itemId}) {
+            if (toDoList[itemIndex].category == ToDoCategory.infinity && toDoList[itemIndex].repeatsOn != nil) {
+                return toDoList[itemIndex].repeatsOn.contains(dayOfWeek)
+            }
+        }
+        return false
+    }
+    
     func unsetNotification(itemId: UUID) {
         if let itemIndex = toDoList.firstIndex(where: {$0.id == itemId}) {
             toDoList[itemIndex].notificationSet = false
