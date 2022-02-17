@@ -101,7 +101,7 @@ class ToDoService: ObservableObject {
     }
     
     private func scheduleNotification(toDoItem: ToDoItem) {
-        if (toDoItem.dueTime != nil && toDoItem.notificationSet) {
+        if (toDoItem.dueTime != nil && toDoItem.notificationSet && toDoItem.category != ToDoCategory.infinity) {
             let content = UNMutableNotificationContent()
             content.title = "todoyy"
             content.body = toDoItem.description.firstLetterUppercased
@@ -124,7 +124,7 @@ class ToDoService: ObservableObject {
     }
     
     private func cancelNotification(toDoItem: ToDoItem) {
-        if (toDoItem.notificationUUID != nil && toDoItem.notificationUUID != "") {
+        if (toDoItem.notificationUUID != nil && toDoItem.notificationUUID != "" && toDoItem.category != ToDoCategory.infinity) {
             var identifiers: [String] = []
             identifiers.append(toDoItem.notificationUUID)
             UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)

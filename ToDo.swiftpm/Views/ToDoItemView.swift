@@ -16,24 +16,28 @@ struct ToDoItemView: View {
     
     var body: some View {
         HStack {
-            Image(systemName: toDoItem.checked ? "checkmark.circle.fill" : "circle")
-                .onTapGesture {
-                    toDoService.toggleItemChecked(itemId: toDoItem.id)
-                    toDoItem.checked.toggle()
-                }
-                .foregroundColor(toDoItem.checked ? .green : .blue)
+            if (toDoCategory != ToDoCategory.infinity) {
+                Image(systemName: toDoItem.checked ? "checkmark.circle.fill" : "circle")
+                    .onTapGesture {
+                        toDoService.toggleItemChecked(itemId: toDoItem.id)
+                        toDoItem.checked.toggle()
+                    }
+                    .foregroundColor(toDoItem.checked ? .green : .blue)
+            }
             if (!isEditable) {
                 Text(toDoItem.description.lowercased())
                     .strikethrough(toDoItem.checked)
                     .foregroundColor(toDoItem.checked ? .gray : .primary)
                     .onTapGesture {
-                        toDoService.toggleItemChecked(itemId: toDoItem.id)
-                        toDoItem.checked.toggle()
+                        if (toDoCategory != ToDoCategory.infinity) {
+                            toDoService.toggleItemChecked(itemId: toDoItem.id)
+                            toDoItem.checked.toggle()
+                        }
                     }
                     .fixedSize(horizontal: false, vertical: true)
                 Spacer()
                 
-                if (toDoCategory == ToDoCategory.daily && !toDoItem.checked) {
+                if ((toDoCategory == ToDoCategory.daily || toDoCategory == ToDoCategory.infinity) && !toDoItem.checked) {
                 if (toDoItem.dueTime == nil || !(toDoItem.notificationSet ?? false)) {
                     Image(systemName: "clock")
                         .foregroundColor(toDoItem.checked ? .gray : .blue)
