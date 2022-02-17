@@ -1,4 +1,5 @@
 import SwiftUI
+import AVFoundation
 
 class ToDoService: ObservableObject {
     @Published private(set) var toDoList: [ToDoItem] = loadToDoList()
@@ -41,6 +42,8 @@ class ToDoService: ObservableObject {
     func editItemDescription(itemId: UUID, newDescription: String) {
         if let itemIndex = toDoList.firstIndex(where: {$0.id == itemId}) {
             toDoList[itemIndex].description = newDescription
+            cancelNotification(toDoItem: toDoList[itemIndex])
+            scheduleNotification(toDoItem: toDoList[itemIndex])
         }
         saveToDoList()
     }
@@ -101,9 +104,8 @@ class ToDoService: ObservableObject {
         if (toDoItem.dueTime != nil && toDoItem.notificationSet) {
             let content = UNMutableNotificationContent()
             content.title = "todoyy"
-            content.body = toDoItem.description
-            content.sound = .default
-            
+            content.body = toDoItem.description.firstLetterUppercased
+            content.sound = UNNotificationSound.init(named:UNNotificationSoundName(rawValue: "CustomNotif.m4a"))
             var dateComponents = DateComponents()
             dateComponents.hour = Date.hour(date: toDoItem.dueTime ?? Date())
             dateComponents.minute = Date.minute(date: toDoItem.dueTime ?? Date())

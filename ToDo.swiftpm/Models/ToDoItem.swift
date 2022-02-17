@@ -1,7 +1,7 @@
 import SwiftUI
 
 enum ToDoCategory: Encodable, Decodable {
-    case daily, monthly, yearly, none
+    case daily, monthly, yearly, infinity, none
 }
 
 struct ToDoItem: Identifiable, Encodable, Decodable {
@@ -12,4 +12,5 @@ struct ToDoItem: Identifiable, Encodable, Decodable {
     var dueTime: Date!
     var notificationSet: Bool! = false
     var notificationUUID: String! = "" 
+    var repeatsOn: [Int]! = []
 }

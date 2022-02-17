@@ -14,7 +14,7 @@ struct ToDoListView: View {
     var body: some View {
         VStack {
             VStack {
-            HeaderView(title: $title, isEditable: $isEditable, isLightMode: $isLightMode)
+            HeaderView(title: $title, isEditable: $isEditable, isLightMode: $isLightMode, pageCategory: $toDoCategory)
             HStack {
                 TextField("?", text: $newToDo, onCommit: addItem)
                     .padding(.all, 5)
