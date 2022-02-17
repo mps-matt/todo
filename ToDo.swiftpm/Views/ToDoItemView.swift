@@ -16,7 +16,7 @@ struct ToDoItemView: View {
     
     var body: some View {
         VStack {
-            if (toDoCategory == ToDoCategory.infinity) {
+            if (toDoCategory == ToDoCategory.infinity && !isEditable) {
                 HStack(spacing: 2) {
                     ForEach(1..<8) { i in
                         Button(Date.getFirstLetterOf(dayOfWeek: i)) {
