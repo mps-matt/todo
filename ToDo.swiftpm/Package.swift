@@ -31,9 +31,6 @@ let package = Package(
                 .landscapeRight,
                 .landscapeLeft,
                 .portraitUpsideDown(.when(deviceFamilies: [.pad]))
-            ],
-            capabilities: [
-                .userTracking(purposeString: "this is a test")
             ]
         )
     ],
