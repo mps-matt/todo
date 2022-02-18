@@ -33,6 +33,11 @@ struct ToDoItemView: View {
                 .lineLimit(1)
                 .fixedSize(horizontal: true, vertical: true)
             }
+            if (toDoCategory != ToDoCategory.infinity && toDoItem.repeatsOn != nil && toDoItem.repeatsOn.count > 0) {
+                Image(systemName: "infinity")
+                    .foregroundColor(toDoItem.checked ? .green : .blue)
+                    .padding(.top)
+            }
         HStack {
             if (toDoCategory != ToDoCategory.infinity) {
                 Image(systemName: toDoItem.checked ? "checkmark.circle.fill" : "circle")
