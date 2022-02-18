@@ -1,4 +1,5 @@
 import SwiftUI
+import BackgroundTasks
 
 @main
 struct ToDoApp: App {
@@ -56,8 +57,31 @@ struct ToDoApp: App {
                 todayMessage = ToDoApp.getMessage(format: "EEEE")
                 monthMessage = ToDoApp.getMessage(format: "LLLL")
                 yearMessage = ToDoApp.getMessage(format: "yyyy")
+            } else if newPhase == .background {
+                scheduleBackgroundTodoFetch()
             }
         }
+    }
+    
+    func scheduleBackgroundTodoFetch() {
+        print("scheduling")
+        let infinityTasksFetchTask = BGAppRefreshTaskRequest(identifier: "com.mattstark.updateTodos")
+        infinityTasksFetchTask.earliestBeginDate = Date(timeIntervalSinceNow: 60)
+        do {
+            try BGTaskScheduler.shared.submit(infinityTasksFetchTask)
+        } catch {
+            print("Unable to submit task: \(error.localizedDescription)")
+        }
+    }
+    
+    func handleAppRefreshTask(task: BGAppRefreshTask) {
+        print("called from background!")
+        task.expirationHandler = {
+            task.setTaskCompleted(success: false)
+        }
+        toDoService.handleForRepeatingTasks()
+        task.setTaskCompleted(success: true)
+        scheduleBackgroundTodoFetch()
     }
     
     static func getMessage(format: String) -> String {
