@@ -11,9 +11,12 @@ struct ToDoApp: App {
     
     @AppStorage("isLightMode") private var isLightMode: Bool = true
     
+    
     init() {
         UITableView.appearance().separatorStyle = .none
         UITableView.appearance().backgroundColor = UIColor.secondarySystemBackground
+        
+        toDoService.handleForRepeatingTasks()
         
         let center = UNUserNotificationCenter.current()
         center.requestAuthorization(options: [.alert, .sound, .badge]){_,_ in }

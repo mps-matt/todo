@@ -8,10 +8,17 @@ struct HeaderView : View {
     @State private var showingSheet = false
     
     @EnvironmentObject private var toDoService: ToDoService
+    @Environment(\.dismiss) var dismiss
     
     var body: some View {
         VStack {
             HStack {
+                if (pageCategory == ToDoCategory.infinity) {
+                    Button("X", action: {
+                        dismiss()
+                    })
+                        .foregroundColor(.blue)
+                }
                 if (pageCategory == ToDoCategory.daily) {
                     Button(action: {
                         showingSheet = true

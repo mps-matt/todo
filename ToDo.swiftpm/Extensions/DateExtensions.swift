@@ -10,20 +10,20 @@ extension Date {
     
     static func getFirstLetterOf(dayOfWeek: Int) -> String {
         switch (dayOfWeek) {
-        case 1: 
-            return getFirstLetterOfMonday()
-        case 2:
-            return getFirstLetterOfTuesday()
-        case 3:
-            return getFirstLetterOfWednesday()
-        case 4:
-            return getFirstLetterOfThursday()
-        case 5:
-            return getFirstLetterOfFriday()
-        case 6:
-            return getFirstLetterOfSaturday()
-        case 7:
+        case 1:
             return getFirstLetterOfSunday()
+        case 2: 
+            return getFirstLetterOfMonday()
+        case 3:
+            return getFirstLetterOfTuesday()
+        case 4:
+            return getFirstLetterOfWednesday()
+        case 5:
+            return getFirstLetterOfThursday()
+        case 6:
+            return getFirstLetterOfFriday()
+        case 7:
+            return getFirstLetterOfSaturday()
         default:
             return ""
         }

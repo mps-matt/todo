@@ -5,6 +5,7 @@ struct ToDoListView: View {
     @State var toDoCategory: ToDoCategory
     @State var toDoList: [ToDoItem]
     
+    @Environment(\.scenePhase) var scenePhase
     @EnvironmentObject private var toDoService: ToDoService
     
     @State private var newToDo = ""
@@ -28,7 +29,7 @@ struct ToDoListView: View {
             List {
                 ForEach(toDoList) { toDoItem in 
                     if(toDoItem.category == toDoCategory) {
-                        ToDoItemView(toDoItem: toDoItem, isEditable: $isEditable, toDoCategory: toDoItem.category)
+                        ToDoItemView(toDoItem: toDoItem, isEditable: $isEditable, toDoCategory: toDoItem.category, isLightMode: $isLightMode)
                             .buttonStyle(PlainButtonStyle())
                     }
                 }
@@ -49,8 +50,15 @@ struct ToDoListView: View {
                 
             }
             .environment(\.editMode, isEditable ? .constant(.active) : .constant(.inactive))
+            .onChange(of: scenePhase) { newPhase in
+                if newPhase == .active {
+                    if (toDoCategory == ToDoCategory.daily) {
+                        toDoService.handleForRepeatingTasks()
+                        toDoList = toDoService.toDoList
+                    }
+                }
+            }
         }
-        
         .textInputAutocapitalization(.never)
         .buttonStyle(.bordered)
         .listStyle(.automatic)

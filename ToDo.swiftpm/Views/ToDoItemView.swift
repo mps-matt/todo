@@ -5,6 +5,7 @@ struct ToDoItemView: View {
     @Binding var isEditable: Bool
     @State var toDoCategory: ToDoCategory
     @EnvironmentObject private var toDoService: ToDoService
+    @Binding var isLightMode: Bool
     
     private var dueTimeProxy: Binding<Date> {
         Binding<Date>(get: {toDoItem.dueTime }, set: {
@@ -22,10 +23,12 @@ struct ToDoItemView: View {
                         Button(Date.getFirstLetterOf(dayOfWeek: i)) {
                             toDoService.toggleItemRepeats(itemId: toDoItem.id, dayOfWeek: i)
                         }
-                        .background(toDoService.hasRepeatOn(itemId: toDoItem.id, dayOfWeek: i) ? Color.tertiaryBackground : .secondaryBackground)
+                        .background(toDoService.hasRepeatOn(itemId: toDoItem.id, dayOfWeek: i) ? Color.tertiaryBackground : ( isLightMode ? .secondaryBackground : .background ))
                         .cornerRadius(25)
+                        
                     }
                 }
+                .padding(.top)
                 .buttonStyle(.bordered)
                 .lineLimit(1)
                 .fixedSize(horizontal: true, vertical: true)

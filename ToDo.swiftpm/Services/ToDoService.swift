@@ -158,4 +158,40 @@ class ToDoService: ObservableObject {
         editItemNotificationString(itemId: toDoItem.id, newString: "")
     }
     
+    func handleForRepeatingTasks() {
+        let todayIndex = Calendar.current.component(.weekday, from: Date())
+        var yesterdayIndex = todayIndex - 1
+        if (yesterdayIndex == 0) {
+            yesterdayIndex = 7
+        }
+        
+        let repeatedYesterday: [ToDoItem] = toDoList.filter {
+            $0.category == ToDoCategory.daily && ($0.repeatsOn?.contains(yesterdayIndex) ?? false) 
+        }
+        
+        let repeatsToday: [ToDoItem] = toDoList.filter { 
+            $0.category == ToDoCategory.infinity && ($0.repeatsOn?.contains(todayIndex) ?? false) 
+        }
+        
+        for repeatingTaskYesterday in repeatedYesterday {
+            if let itemIndex = toDoList.firstIndex(where: {$0.id == repeatingTaskYesterday.id}) {
+                delete(at: IndexSet(integer: itemIndex))
+            }
+        }
+        
+        var repeatsOnArray: [Int] = []
+        repeatsOnArray.append(todayIndex)
+        
+        for repeatingTaskToday in repeatsToday {
+            let itemIndex = toDoList.firstIndex(where: {$0.description == repeatingTaskToday.description && $0.category == ToDoCategory.daily})
+            if (itemIndex == nil) {
+                let newToDo = ToDoItem(description: repeatingTaskToday.description, category: ToDoCategory.daily, repeatsOn: repeatsOnArray)
+                add(toDoItem: newToDo)
+                
+                if (repeatingTaskToday.dueTime != nil) {
+                    editItemTime(itemId: newToDo.id, newTime: repeatingTaskToday.dueTime)
+                }
+            }
+        }
+    }
 }
