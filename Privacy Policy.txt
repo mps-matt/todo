@@ -1,0 +1,21 @@
+=== Privacy Policy ===
+
+The todoyy app is a small todo app created entirely using Swift Playgrounds on an iPad. The app service is provided and intended for use as is. 
+
+This policy page is used to inform interested parties regarding the policies in regards to collection, use and disclosure of Personal Information.
+
+Your information will not be used or shared with anyone except as described in this Privacy Policy.
+
+The todoyy app is entirely an offline application. This means no information you enter into the app as todo items ever leaves your device and is never sent to a server. It is stored in the App Defaults on your local device only. The App Defaults store is not encrypted and can be accessed by a file browser if someone had access to your physical device.
+
+This data is not collected by the developer in any way.
+
+This application does not use any cookies and does not store any tracking cookies on your device either.
+
+This app does not track you across other applications or websites.
+
+Updates may be made to this Privacy Policy from time to time. Changes will be noted by posting the new Privacy Policy on this page with noted recent changes. These changes are effective immediately after they are posted on this page. Because of this, it is advised you check this site from time to time for changes to the Privacy Policy
+
+=== Help ===
+
+If you have any issues with the todoyy app or are looking for support, please raise an "issue" on the github page.
